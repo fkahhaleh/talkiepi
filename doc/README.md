@@ -156,6 +156,10 @@ Finally, set the Pi up to run unattended upgrades:
 sudo dpkg-reconfigure -plow unattended-upgrades 
 ```
 
+You can check the upgrade log here:
+```
+cat /var/log/unattended-upgrades/unattended-upgrades.log
+```
 
 I will be adding volume control settings in an upcoming push.
 

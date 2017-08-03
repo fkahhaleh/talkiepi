@@ -42,8 +42,8 @@ go get github.com/dchote/talkiepi
 cd $GOPATH/src/github.com/dchote/talkiepi
 
 git remote add fork https://github.com/WilliamLiska/talkiepi.git
-git pull fork add-volume-controls
-git checkout add-volume-controls
+git pull fork master
+git checkout master
 
 go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go 
 ```

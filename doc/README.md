@@ -121,4 +121,41 @@ In order to support SSH-free Wifi configuration and pushbutton Wifi reconfigurat
 
 supertalkie-buttons is a python script that watches for miscellaneous button presses and runs scripts.  Currently it's configured to kick off raspberry-wifi-conf in ForceChange mode to 'reset' the Wifi settings.  Install it from https://github.com/WilliamLiska/supertalkie-buttons.
 
+## Enable automatic updates of Raspbian
+
+Since this is an internet-connected device, we should make sure it receives automatic updates.
+
+Install unattended-upgrades:
+```
+sudo apt-get install unattended-upgrades
+```
+The config file for unattended-upgrades is in /etc/apt/apt.conf.d/50unattended-upgrades.  There are plenty of options, but here are some good things to set up:
+
+Configure to stick with Jessie by uncommenting this line inside of Unattended-Upgrade::Origins-Pattern:
+```
+"o=Raspbian,n=jessie";
+```
+
+Configure to automatically reboot when needed by uncommenting this line:
+```
+Unattended-Upgrade::Automatic-Reboot "true";
+```
+
+Configure the reboot time by uncommenting and modifying this line:
+```
+Unattended-Upgrade::Automatic-Reboot-Time "02:00";
+```
+
+Configure to automatically remove unused dependencies by uncommenting this line:
+```
+Unattended-Upgrade::Remove-Unused-Dependencies "false";
+```
+
+Finally, set the Pi up to run unattended upgrades:
+```
+sudo dpkg-reconfigure -plow unattended-upgrades 
+```
+
+
 I will be adding volume control settings in an upcoming push.
+

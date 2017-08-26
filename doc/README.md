@@ -36,7 +36,8 @@ export GOBIN=/home/mumble/bin
 
 cd $GOPATH
 
-go get github.com/layeh/gopus
+go get github.com/layeh/gopus # I had issues with this on the Pi 3.  Ended up go get layeh.com/gopus and then removing the canonical refs from the gopus .go files.
+
 go get github.com/dchote/talkiepi
 
 cd $GOPATH/src/github.com/dchote/talkiepi

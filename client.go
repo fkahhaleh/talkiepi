@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"os/signal"
 	"strings"
 	"time"
-
+	"syscall"
 	"github.com/dchote/gumble/gumble"
 	"github.com/dchote/gumble/gumbleopenal"
 	"github.com/dchote/gumble/gumbleutil"
@@ -22,11 +23,20 @@ func (b *Talkiepi) Init() {
 	b.Connect()
 
 	// our main run loop here... keep things alive
-	keepAlive := make(chan bool)
-	exitStatus := 0
+	keepAlive := make(chan os.Signal)
+	signal.Notify(keepAlive, syscall.SIGINT, syscall.SIGTERM)
 
 	<-keepAlive
+	exitStatus := 0
+
+	//Turn off LEDs before exiting
+	b.OnExit()
 	os.Exit(exitStatus)
+}
+
+func (b *Talkiepi) OnExit() {
+	b.LEDOff(b.OnlineLED)
+	b.LEDOff(b.ParticipantsLED)
 }
 
 func (b *Talkiepi) Connect() {

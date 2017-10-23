@@ -161,6 +161,11 @@ You can check the upgrade log here:
 ```
 cat /var/log/unattended-upgrades/unattended-upgrades.log
 ```
+## Install supertalkie-manager
+```
+cd /home/mumble
+git clone https://github.com/WilliamLiska/supertalkie-manager.git
 
-I will be adding volume control settings in an upcoming push.
+cd supertalkie-manager
+./supertalkie-manager install
 

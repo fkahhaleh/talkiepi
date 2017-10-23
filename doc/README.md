@@ -168,4 +168,4 @@ git clone https://github.com/WilliamLiska/supertalkie-manager.git
 
 cd supertalkie-manager
 ./supertalkie-manager install
-
+```

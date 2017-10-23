@@ -162,6 +162,7 @@ You can check the upgrade log here:
 cat /var/log/unattended-upgrades/unattended-upgrades.log
 ```
 ## Install supertalkie-manager
+**supertalkie-manager** has a set of functions for managing the supertalkie.  Running `install` will set up the cron jobs for starting, stopping, and updating.
 ```
 cd /home/mumble
 git clone https://github.com/WilliamLiska/supertalkie-manager.git

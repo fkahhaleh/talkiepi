@@ -1,15 +1,16 @@
 # Boot to talkiepi
 ![assembled1](talkiepi_assembled_1.jpg "Assembled talkiepi 1")
 
-This is a simple overview to scratch install talkiepi on your Raspberry Pi, and have it start on boot. 
-This document assumes that you have raspbian-stretch-lite installed on your SD card, and that the distribution is up to date.
-This document also asumes that you have already configured network/wifi connectivity on your Raspberry Pi.
+This is a simple overview to scratch install talkiepi on your Raspberry Pi, and have it start on boot.  This guide assumes you are using a Raspberry Pi 3 or Zero W and the Plugable USB adapter (http://plugable.com/products/usb-audio/).
+
 
 By default talkiepi will run without any arguments, it will autogenerate a username and then connect to my mumble server.
 You can change this behavior by appending commandline arguments of `-server YOUR_SERVER_ADDRESS`, `-username YOUR_USERNAME` to the ExecStart line in `/etc/systemd/system/mumble.service` once installed.
 
 talkiepi will also accept arguments for `-password`, `-insecure`, `-certificate` and `-channel`, all defined in `cmd/talkiepi/main.go`, if you run your own mumble server, these will be self explanatory.
 
+## Flash Raspbian Jessie, set up wifi, etc.
+https://www.losant.com/blog/getting-started-with-the-raspberry-pi-zero-w-without-a-monitor
 
 ## Create a user
 
@@ -35,12 +36,16 @@ export GOBIN=/home/mumble/bin
 
 cd $GOPATH
 
-go get github.com/dchote/gopus
+go get layeh.com/gopus
 go get github.com/dchote/talkiepi
 
 cd $GOPATH/src/github.com/dchote/talkiepi
 
-go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go 
+git remote add fork https://github.com/WilliamLiska/talkiepi.git
+git pull fork master
+git checkout master
+
+go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go
 ```
 
 
@@ -49,7 +54,12 @@ go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go
 As root on your Raspberry Pi (`sudo -i`), copy mumble.service in to place:
 ```
 cp /home/mumble/gocode/src/github.com/dchote/talkiepi/conf/systemd/mumble.service /etc/systemd/system/mumble.service
+```
 
+Update /etc/systemd/system.mumble.service using `sudo nano /etc/systemd/system/mumble.service`, appending `-server [serverip:port] -username [username] -password [password]` to `ExecStart = /home/mumble/bin/talkiepi`
+
+Enable the service to run at boot:
+```
 systemctl enable mumble.service
 ```
 
@@ -103,6 +113,59 @@ amixer -c 1 set Headphone 60%
 ```
 _1 being the index of your device_
 
+## Install raspberry-wifi-conf
 
-## Pi Zero Fixes
-I have compiled libopenal without ARM NEON support so that it works on the Pi Zero. The packages can be found in the [workarounds](/workarounds/). directory of this repo, install the libopenal1 package over your existing libopenal install.
+In order to support SSH-free Wifi configuration and pushbutton Wifi reconfiguration, install this in /home/mumble/raspberry-wifi-conf: https://github.com/WilliamLiska/raspberry-wifi-conf
+
+## Install supertalkie-buttons
+
+supertalkie-buttons is a python script that watches for miscellaneous button presses and runs scripts.  Currently it's configured to kick off raspberry-wifi-conf in ForceChange mode to 'reset' the Wifi settings.  Install it from https://github.com/WilliamLiska/supertalkie-buttons.
+
+## Enable automatic updates of Raspbian
+
+Since this is an internet-connected device, we should make sure it receives automatic updates.
+
+Install unattended-upgrades:
+```
+sudo apt-get install unattended-upgrades
+```
+The config file for unattended-upgrades is in /etc/apt/apt.conf.d/50unattended-upgrades.  There are plenty of options, but here are some good things to set up:
+
+Configure to stick with Jessie by uncommenting this line inside of Unattended-Upgrade::Origins-Pattern:
+```
+"o=Raspbian,n=jessie";
+```
+
+Configure to automatically reboot when needed by uncommenting this line:
+```
+Unattended-Upgrade::Automatic-Reboot "true";
+```
+
+Configure the reboot time by uncommenting and modifying this line:
+```
+Unattended-Upgrade::Automatic-Reboot-Time "02:00";
+```
+
+Configure to automatically remove unused dependencies by uncommenting this line:
+```
+Unattended-Upgrade::Remove-Unused-Dependencies "false";
+```
+
+Finally, set the Pi up to run unattended upgrades:
+```
+sudo dpkg-reconfigure -plow unattended-upgrades
+```
+
+You can check the upgrade log here:
+```
+cat /var/log/unattended-upgrades/unattended-upgrades.log
+```
+## Install supertalkie-manager
+**supertalkie-manager** has a set of functions for managing the supertalkie.  Running `install` will set up the cron jobs for starting, stopping, and updating.
+```
+cd /home/mumble
+git clone https://github.com/WilliamLiska/supertalkie-manager.git
+
+cd supertalkie-manager
+./supertalkie-manager install
+```

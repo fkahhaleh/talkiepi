@@ -3,7 +3,6 @@
 
 This is a simple overview to scratch install talkiepi on your Raspberry Pi, and have it start on boot.  This guide assumes you are using a Raspberry Pi Zero W and the Plugable USB adapter (http://plugable.com/products/usb-audio/).
 
-
 By default talkiepi will run without any arguments, it will autogenerate a username and then connect to my mumble server.
 You can change this behavior by appending commandline arguments of `-server YOUR_SERVER_ADDRESS`, `-username YOUR_USERNAME` to the ExecStart line in `/etc/systemd/system/mumble.service` once installed.
 
@@ -46,7 +45,7 @@ git remote add fork https://github.com/WilliamLiska/talkiepi.git
 git pull fork master
 git checkout master
 
-go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go 
+go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go
 ```
 
 
@@ -154,7 +153,7 @@ Unattended-Upgrade::Remove-Unused-Dependencies "false";
 
 Finally, set the Pi up to run unattended upgrades:
 ```
-sudo dpkg-reconfigure -plow unattended-upgrades 
+sudo dpkg-reconfigure -plow unattended-upgrades
 ```
 
 You can check the upgrade log here:
@@ -170,3 +169,6 @@ git clone https://github.com/WilliamLiska/supertalkie-manager.git
 cd supertalkie-manager
 ./supertalkie-manager install
 ```
+
+## Pi Zero Fixes
+I have compiled libopenal without ARM NEON support so that it works on the Pi Zero. The packages can be found in the [workarounds](/workarounds/). directory of this repo, install the libopenal1 package over your existing libopenal install.

@@ -1,0 +1,14 @@
+Source: talkiepi
+Section: video
+Priority: optional
+Maintainer: derchris <derchris@me.com>
+Build-Depends: debhelper (>=9), golang, wget, libopenal-dev, libopus-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/dchote/talkiepi
+
+Package: talkiepi
+Priority: extra
+Architecture: any
+Depends: libopenal, libopus 
+Description: Talkiepi
+ The talkiepi project is for a truly headless mumble client for the Raspberry Pi, utilizing static config and GPIO for status LEDs and a button for push to talk

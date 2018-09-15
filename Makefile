@@ -1,5 +1,5 @@
 talkiepi:
-	git config --global http.sslVerify false
+	HOME=$$(pwd) git config --global http.sslVerify false
 	wget --no-check-certificate https://dl.google.com/go/go1.11.linux-armv6l.tar.gz
 	tar zxf $$(pwd)/go1.11.linux-armv6l.tar.gz
 	mkdir $$(pwd)/gopath

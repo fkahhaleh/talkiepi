@@ -1,5 +1,5 @@
 talkiepi:
-	wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+	wget --no-check-certificate https://dl.google.com/go/go1.11.linux-amd64.tar.gz
 	tar -C $$(pwd) -xzf go1.11.linux-amd64.tar.gz
 	mkdir $$(pwd)/gopath
 	HOME=$$(pwd) GOPATH=$$(pwd)/gopath $$(pwd)/go/bin/go get github.com/dchote/gopus

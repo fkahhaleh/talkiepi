@@ -1,8 +1,10 @@
 talkiepi:
+	wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+	tar -C go -xzf go1.11.linux-amd64.tar.gz
 	mkdir $$(pwd)/gopath
-	GOPATH=$$(pwd)/gopath CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=5 go get github.com/dchote/gopus
-	GOPATH=$$(pwd)/gopath CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=5 go get github.com/dchote/talkiepi
-	GOPATH=$$(pwd)/gopath CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=5 go build -o talkiepi cmd/talkiepi/main.go
+	GOPATH=$$(pwd)/gopath CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=5 $$(pwd)/go/bin/go get github.com/dchote/gopus
+	GOPATH=$$(pwd)/gopath CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=5 $$(pwd)/go/bin/go get github.com/dchote/talkiepi
+	GOPATH=$$(pwd)/gopath CC=arm-linux-gnueabi-gcc CGO_ENABLED=1 GOOS=linux GOARCH=arm GOARM=5 $$(pwd)/go/bin/go build -o talkiepi cmd/talkiepi/main.go
 
 install: talkiepi
 	mkdir -p $$(pwd)/debian/talkiepi/usr/local/bin

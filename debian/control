@@ -9,6 +9,6 @@ Homepage: https://github.com/dchote/talkiepi
 Package: talkiepi
 Priority: extra
 Architecture: any
-Depends: libopenal1, libopus0 
+Depends: ${shlibs:Depends}, libopenal1, libopus0 
 Description: Talkiepi
  The talkiepi project is for a truly headless mumble client for the Raspberry Pi, utilizing static config and GPIO for status LEDs and a button for push to talk

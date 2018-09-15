@@ -2,7 +2,7 @@ Source: talkiepi
 Section: video
 Priority: optional
 Maintainer: derchris <derchris@me.com>
-Build-Depends: debhelper (>=9), pkgconf, tar, wget, git, libopenal-dev, libopus-dev
+Build-Depends: debhelper (>=9), golang, pkgconf, tar, wget, git, libopenal-dev, libopus-dev
 Standards-Version: 3.9.8
 Homepage: https://github.com/dchote/talkiepi
 

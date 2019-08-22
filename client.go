@@ -2,14 +2,15 @@ package talkiepi
 
 import (
 	"fmt"
-	"github.com/dchote/gumble/gumble"
-	"github.com/dchote/gumble/gumbleopenal"
-	"github.com/dchote/gumble/gumbleutil"
-	"github.com/kennygrant/sanitize"
 	"net"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/kennygrant/sanitize"
+	"layeh.com/gumble/gumble"
+	"layeh.com/gumble/gumbleopenal"
+	"layeh.com/gumble/gumbleutil"
 )
 
 func (b *Talkiepi) Init() {

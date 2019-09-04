@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 	"time"
-
+	"os/exec"
 	"github.com/kennygrant/sanitize"
 	"layeh.com/gumble/gumble"
 	"layeh.com/gumble/gumbleopenal"
@@ -120,7 +120,7 @@ func (b *Talkiepi) OnConnect(e *gumble.ConnectEvent) {
 	}
 
 	if b.ChannelName != "" {
-		b.ChangeChannel(b.ChannelName)
+		b.ChangeChannelByName(b.ChannelName)
 	}
 }
 
@@ -148,14 +148,49 @@ func (b *Talkiepi) OnDisconnect(e *gumble.DisconnectEvent) {
 	b.ReConnect()
 }
 
-func (b *Talkiepi) ChangeChannel(ChannelName string) {
-	channel := b.Client.Channels.Find(ChannelName)
-	if channel != nil {
-		b.Client.Self.Move(channel)
-	} else {
-		fmt.Printf("Unable to find channel: %s\n", ChannelName)
+func (b *Talkiepi) ChangeChannelByName(ChannelName string) {
+	channel := b.Client.Channels.Find(ChannelName)		for _, channel := range b.Client.Channels {
+	if channel != nil {			if channel.Name == ChannelName {
+		b.Client.Self.Move(channel)				b.ChangeChannel(channel)
+	} else {				return
+		fmt.Printf("Unable to find channel: %s\n", ChannelName)			}
+	}		}
+	fmt.Printf("Unable to find channel: %s\n", ChannelName)
+}
+
+ func (b *Talkiepi) ChangeChannel(channel *gumble.Channel) {
+	b.Client.Self.Move(channel)
+	b.ChannelName = channel.Name
+	
+	cmd := exec.Command("speech", "channel " + b.ChannelName)
+	err := cmd.Run()
+	if err != nil {
+		fmt.Printf("Failed to run speech command")
 	}
 }
+
+ func (b *Talkiepi) NextChannel() {
+	var found bool = false
+	var channel *gumble.Channel = nil
+
+ 	if b.IsConnected == false {
+		return
+	}
+	for _, ch := range b.Client.Channels {
+		if found == true {
+			channel = ch
+			break
+		}
+
+ 		if ch.Name == b.ChannelName {
+			found = true;
+		}
+	}
+	if channel == nil {
+		channel = b.Client.Channels[0]
+	}
+	b.ChangeChannel(channel)
+}	
 
 func (b *Talkiepi) ParticipantLEDUpdate() {
 	time.Sleep(100 * time.Millisecond)

@@ -11,8 +11,8 @@ usermod -a -G cdrom,audio,video,plugdev,users,dialout,dip,input,gpio mumble
 su mumble -c "cd ; mkdir ~/gocode ; mkdir ~/bin ; "
 su mumble -c "export GOPATH=/home/mumble/gocode ; export GOBIN=/home/mumble/bin ; cd $GOPATH && go get layeh.com/gopus" || exit
 su mumble -c "export GOPATH=/home/mumble/gocode ; export GOBIN=/home/mumble/bin ; cd $GOPATH && go get github.com/dchote/gopus" || exit
-su mumble -c "export GOPATH=/home/mumble/gocode ; export GOBIN=/home/mumble/bin ; cd $GOPATH && go get github.com/fkahhaleh/talkiep " || exit
-su mumble -c "export GOPATH=/home/mumble/gocode ; export GOBIN=/home/mumble/bin ; cd /home/mumble/gocode/src/github.com/fkahhaleh/talkiep && go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go "  || exit
+su mumble -c "export GOPATH=/home/mumble/gocode ; export GOBIN=/home/mumble/bin ; cd $GOPATH && go get github.com/fkahhaleh/talkiepi " || exit
+su mumble -c "export GOPATH=/home/mumble/gocode ; export GOBIN=/home/mumble/bin ; cd /home/mumble/gocode/src/github.com/fkahhaleh/talkiepi && go build -o /home/mumble/bin/talkiepi cmd/talkiepi/main.go "  || exit
 
 # echo "generating mumble client certificate...pleae enter a random passphrase and repeat it when asked to"
 #su mumble -c "cd ; openssl genrsa -aes256 -out key.pem && openssl req -new -x509 -key key.pem -out cert.pem -days 1095 && openssl req -new -x509 -key key.pem -out cert.pem -days 1095 && openssl rsa -in key.pem -out nopasskey.pem && cat nopasskey.pem cert.pem > mumble.pem"

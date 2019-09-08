@@ -48,21 +48,18 @@ func (b *Talkiepi) initGPIO() {
 				fmt.Printf("ChannelSelection Button is released\n")
 				//no further action to do
 			},
-		}
+		},
 	}
 
 	// unfortunately the gpio watcher stuff doesnt work for me in this context, so we have to poll the buttons instead
 	go func() {
 		for {
-
 			if b.AlwaysListening {
 				if b.Stream != nil && !b.IsTransmitting {
 					   b.TransmitStart()
 				}
-			}
-			else
-			{
-				if b.GPIOEnabled{
+			} else {
+				if b.GPIOEnabled {
 					for i := 0; i < len(b.Buttons); i++ {
 						currentState, err := b.Buttons[i].Pin.Read()
 	

@@ -13,8 +13,8 @@ const (
 	OnlineLEDPin        uint = 18
 	ParticipantsLEDPin  uint = 23
 	TransmitLEDPin      uint = 24
-	TransmitButtonPin   uint = 25
-	VolumeIncrement			int = 10
+	PushToTalkPin	    uint = 25
+	VolumeIncrement	    int = 10
 )
 
 type TalkieButton struct {
@@ -38,6 +38,7 @@ type Talkiepi struct {
 	ChannelName    string
 	IsConnected    bool
 	IsTransmitting bool
+	AlwaysListening bool
 
 	GPIOEnabled     bool
 	OnlineLED       gpio.Pin

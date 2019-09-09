@@ -13,7 +13,8 @@ const (
 	OnlineLEDPin        uint = 18
 	ParticipantsLEDPin  uint = 23
 	TransmitLEDPin      uint = 24
-	PushToTalkPin	    uint = 25
+	PushToTalkButtonPin uint = 25
+	SelectButtonPin	    uint = 26
 	VolumeIncrement	    int = 10
 )
 
